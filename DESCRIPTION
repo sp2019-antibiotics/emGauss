@@ -1,0 +1,20 @@
+Package: emGauss
+Type: Package
+Title: Estimation of ECOFF Value by mixing Gaussians
+Version: 0.1.0
+Depends: R (>= 3.5.0)
+Author: Angelika Moder, Michaela Raab, Nicole Halmdienst, Sebastian Schrey, Wolfgang Rannetbauer
+Maintainer: Michaela Raab <raab.michaela96@gmail.com>
+Description: This packages offers function to get the ECOFF Value of an EUCAST Dataset.Therefore, the distribution of the data is approximated by a mixing distribution of Gaussians. In order to get the parameters of the mixing components an EM Algorithm is used.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    invgamma,
+    dplyr,
+    stats
+RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

@@ -1,0 +1,111 @@
+---
+title: "Example_with_EUCAST_Data"
+author: "Angelika Moder, Michaela Raab, Nicole Halmdienst, Sebastian Schrey, Wolfgang Rannetbauer"
+
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example_with_EUCAST_Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This documents is an introduction to the package `emGauss`. The aim of this package is to find the cutoff point (ECOFF) between resistant and non-resistant antibiotics.
+
+# Setup
+
+Therefore, first load the package `emGauss`.
+```{r setup}
+library(emGauss)
+```
+
+# Data
+This package also includes real data (Zonedata) from the EUCAST website. This will be loaded in the next lines of code
+
+```{r}
+data('ZD')
+```
+
+# Example Dataset
+In order to get an example dataset, we have to extract the nessercary columns from the ZD dataset. The plot shows that the data may have two components.
+
+```{r}
+# 65, 855, 1091 example datasets 
+
+zd <- as.numeric(ZD[1091, 4:48])
+zd.data <- data.frame(bin = 6:50, nrObs = zd)
+barplot(zd.data$nrObs, names.arg = c(zd.data$bin))
+
+```
+
+
+# Find optimum number of components
+In this section we use the function `em.gauss.opti.groups` to find the optimum number of components based on the BIC. 
+```{r}
+k <- 5
+y <- as.numeric(zd)
+
+result <-em.gauss.opti.groups(y = y,
+                     k = k,
+                     alpha = 3,
+                     beta= 1,
+                     method = "quantile",
+                     epsilon=0.0001)
+```
+As a result we get a list with all parameters of the fitted distribution and the AIC and BIC values.
+The next line of code shows the best number of components based on the BIC. As we can see is the optimum number of components 2.
+```{r}
+plot(result$BIC, ylab = 'BIC',
+     xlab = 'Number of components')
+abline(v=which.min(result$BIC), lty= 2, col=2)
+
+```
+
+
+# Find start values
+
+In order to find start values for the mean and the variance we use the function `createCluster`.
+
+
+```{r}
+k <- 2
+start.musigma2 <- createCluster(as.matrix(zd.data), k, 
+                                method = 'quantile')
+start.musigma2
+
+```
+
+
+# Fitting distribution and find ECOFF
+After finding the start values we can use the function `em.gauss` to fit the mixing distribution of normals to the data. As a result we get the mean, variance, mixing proportions and loglikelihood of the fitted distribution. Furthermore the function provides an estimate of the ECOFF value.
+```{r}
+y <- as.numeric(zd)
+
+em.result <- em.gauss(y = y,
+                      mu = start.musigma2$mu,
+                      sigma2 = start.musigma2$sigma2,
+                      pi = rep(1/k, k),
+                      alpha = 3,
+                      beta = 1,
+                      epsilon = 0.0001,
+                      max.iter = 650)
+```
+
+# Plot result
+Now we use the function plot.fct to plot the fitted distribution and the ECOFF.
+
+```{r}
+plot_fct(y, 
+          mu = em.result$mu, 
+          sigma2 = em.result$sigma2, 
+          pi = em.result$pi, 
+          ecoff = em.result$ecoff)
+```
+
+
