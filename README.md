@@ -12,7 +12,7 @@ You can install the released version of emGauss from GitHub using the package `d
 
 # install.packages("devtools")
 
-devtools::install_github("sp2019-antibiotics/ECOFFBayes")
+devtools::install_github("sp2019-antibiotics/emGauss")
 
 ```
 
