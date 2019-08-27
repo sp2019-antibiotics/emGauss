@@ -18,7 +18,7 @@ em.gauss.opti.groups(y, k, alpha, beta, method = "quantile",
 
 \item{method}{method how startvalues should be evaluated. For more details see function CreateCluster}
 
-\item{epsilon}{stopping criteria}
+\item{epsilon}{stopping criterion}
 }
 \value{
 A list with  mu, var, pi, loglik, ecoff, AIC, BIC for each fitted distribution
@@ -27,8 +27,8 @@ A list with  mu, var, pi, loglik, ecoff, AIC, BIC for each fitted distribution
 This function provides the user information of the fitted distributions in order to choose the optimal number of components.
 }
 \details{
-This function fits for each number of component (1:k) a mixing distribution of Gaussians by using
-the function em.gauss. Furthermore, the fit of the distributions is meassured by the two information criteria AIC and BIC.
+This function fits for each number of components (1:k) a mixing distribution of Gaussians by using
+the function em.gauss. Furthermore, the fit of the distributions is measured by the two information criteria AIC and BIC.
 }
 \examples{
 y <- c(2, 4, 5,6,5,2,2, 1, 1, 2,  2, 1,6,7,8,7,6, 5, 2,1)

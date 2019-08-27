@@ -1,13 +1,13 @@
 #library(tidyverse)
 #library(dplyr)
 
-#' @title Create Cluster blal
+#' @title Create Cluster 
 #' @param y a  (nx2) matrix (nx2) First column: number of bin, Second column: number of observation per bin
 #' @param k a numeric value - number of components (fitted distributions)
 #' @param method the method to be used for finding the k groups of data. For more information see Details
 
 #' @return kx2 matrix with mean and variance per component
-#' @description The function estimates the mean and variance of the k groups of the underlying inputdata y.
+#' @description The function estimates the mean and variance of the k groups of the underlying input data y.
 #' @details For the input parameter method are two options available, namely binbased and quantiles.
 #' binbased: the group calculation is based on bins. As a result of that each group has the same number of bins
 #' quantiles: the group calculation is based on the observed values per bin. As a result of that each group has the same number of observations.
@@ -19,17 +19,19 @@
 #' createCluster(as.matrix(data), 2, method = 'binbased')
 
 #' @export
-createCluster <- function(y,k, method = "quantile"){
+createCluster <- function(y,k, method = c("quantile", "binbased")){
 
   #y matrix with columns (name of bin, number of observation)
   #k number of groups
-  # method quantiles and binbased
+  # method quantile and binbased
 
  # if(class(y) != "matrix") warning("y is not a matrix")
  # if(class(k) != "numeric") warning("k is not a numeric vector")
-  if(any(k<0)) warning("only positiv x values are allowed")
-  if(any(y<0)) warning("only positiv y values are allowed")
+  if(any(k<0)) warning("only positive x values are allowed")
+  if(any(y<0)) warning("only positive y values are allowed")
 
+  method <- match.arg(method)
+  
   # Delete 0 Observations
   y <- y[-1, ]
   y <- y[y[,2] != 0, ]

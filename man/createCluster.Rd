@@ -2,9 +2,9 @@
 % Please edit documentation in R/createCluster.R
 \name{createCluster}
 \alias{createCluster}
-\title{Create Cluster blal}
+\title{Create Cluster}
 \usage{
-createCluster(y, k, method = "quantile")
+createCluster(y, k, method = c("quantile", "binbased"))
 }
 \arguments{
 \item{y}{a  (nx2) matrix (nx2) First column: number of bin, Second column: number of observation per bin}
@@ -17,7 +17,7 @@ createCluster(y, k, method = "quantile")
 kx2 matrix with mean and variance per component
 }
 \description{
-The function estimates the mean and variance of the k groups of the underlying inputdata y.
+The function estimates the mean and variance of the k groups of the underlying input data y.
 }
 \details{
 For the input parameter method are two options available, namely binbased and quantiles.
