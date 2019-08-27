@@ -33,7 +33,7 @@ pj <- function(p0, pi, a, b, mu , sigma2, get.p0= FALSE){
 
   buffer <- numeric(length(mu))
   for (i in length(mu)){
-    buffer[i] <- pi[i]*pjk(a, b, mu[i], sigma2[i]))
+    buffer[i] <- pi[i]*pjk(a, b, mu[i], sigma2[i])
   }
 
   if(get.p0){
