@@ -112,26 +112,6 @@ loglik2 <- function(y, pi, mu, sigma2, ab_bin){
 
   return(sum(ll))
 }
-#Loglikelihood penalized
-loglik.pen <- function(n0, p0, J, K, pi, pjk, njk,mu, sigma2, alpha, beta){
-  # n0 - numeric value number of resistent observations
-  # p0 - numeric value probability of being in interval B0
-  # J -  numeric value Number of Bins
-  # K -  numeric value Number of components
-  # pi - vector of mixing proportions
-  # pjk - occurence probabilty of a jth bin in the kth density
-  # njk - matrix number of expected observation in jth bin under kth density
-  # alpha - numeric value shape of inverse gamma distribution
-  # beta  - numeric value rate of inverse gamma distribution
-  #OUTPUT
-  #likelihood value penalized (loglik)
-
-
-  pen <- sum(invgamma::pinvgamma(sigma2, alpha, beta, log.p = T))
-  loglikpen <- loglik(n0, p0, J, K, pi, pjk, njk, mu, sigma2) - pen
-
-  return(loglikpen)
-}
 
 # Vector of mixing proportions
 pi <- function(N, n0, njk){
