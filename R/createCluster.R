@@ -27,8 +27,8 @@ createCluster <- function(y,k, method = c("quantile", "binbased")){
 
  # if(class(y) != "matrix") warning("y is not a matrix")
  # if(class(k) != "numeric") warning("k is not a numeric vector")
-  if(any(k<0)) warning("only positive x values are allowed")
-  if(any(y<0)) warning("only positive y values are allowed")
+  if(any(k<=0)) warning("only positive k values are allowed")
+  if(any(y<0)) warning("only nonnegative y values are allowed")
 
   method <- match.arg(method)
   

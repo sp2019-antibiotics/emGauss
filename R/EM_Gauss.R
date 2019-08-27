@@ -240,18 +240,18 @@ em.gauss <- function(y, mu, sigma2, pi, alpha, beta,
 
 
 #  if(class(y) != "numeric") stop("y is not a numeric vector")
-  if(any(y<0)) stop("only positive y values are allowed")
+  if(any(y<0)) stop("only nonnegative y values are allowed")
 
   if(sum(y[-1])<10) stop("EM-Algorithm needs at least 10 observations")
 
   if(!is.numeric(mu)) stop("mu is not a numeric vector")
-  if(any(mu<0)) stop("only positive mu values are allowed")
+  if(any(mu<=0)) stop("only positive mu values are allowed")
 
   if(!is.numeric(sigma2)) stop("sigma2 is not a numeric vector")
-  if(any(sigma2<0)) stop("only positive sigma2 values are allowed")
+  if(any(sigma2<=0)) stop("only positive sigma2 values are allowed")
 
   if(!is.numeric(pi)) stop("pi is not a numeric vector")
-  if(any(pi<0)) stop("only positive pi values are allowed")
+  if(any(pi<=0)) stop("only positive pi values are allowed")
 
   if(length(mu) != length(sigma2) || length(sigma2) != length(pi)){
     stop("mu and sigma2 or sigma2 and pi have not the same length")
@@ -261,15 +261,15 @@ em.gauss <- function(y, mu, sigma2, pi, alpha, beta,
     stop("y must be at least the same length as mu")
   }
 
-  if(!is.numeric(alpha) || length(alpha) != 1 || any(alpha<0)){
+  if(!is.numeric(alpha) || length(alpha) != 1 || any(alpha<=0)){
     stop("alpha is not a positive numeric value")
   }
 
-  if(!is.numeric(beta)|| length(beta) != 1 || any(beta<0)){
+  if(!is.numeric(beta)|| length(beta) != 1 || any(beta<=0)){
     stop("beta is not a positive numeric value")
   }
 
-  if(!is.numeric(epsilon) || length(epsilon) != 1 || any(epsilon<0)){
+  if(!is.numeric(epsilon) || length(epsilon) != 1 || any(epsilon<=0)){
     stop("epsilon is not a positive numeric value")
   }
 
@@ -454,16 +454,16 @@ em.gauss.opti.groups <- function(y, k, alpha, beta, method = "quantile", epsilon
   # list(estimated mu, estimated sigma2, likelihood value)
   # method quantiles and binbased
 
-  if(any(y<0)) stop("only positive y values are allowed")
+  if(any(y<0)) stop("only nonnegative y values are allowed")
 
   if(!is.numeric(k)) stop("k is not a numeric vector")
-  if(any(k<0)) stop("only positive k values are allowed")
+  if(any(k<=0)) stop("only positive k values are allowed")
 
-  if(!is.numeric(alpha) || length(alpha) != 1 || any(alpha<0)){
+  if(!is.numeric(alpha) || length(alpha) != 1 || any(alpha<=0)){
     stop("alpha is not a positive numeric value")
   }
 
-  if(!is.numeric(beta) || length(beta) != 1 || any(beta<0)){
+  if(!is.numeric(beta) || length(beta) != 1 || any(beta<=0)){
     stop("beta is not a positive numeric value")
   }
 
@@ -545,6 +545,7 @@ plot.dens <- function(x, mu, sigma2, pi){
   return(dens)
 }
 
+utils::globalVariables("x")
 
 #' @title Plotting the fitted distribution with ECOFF
 #' @description This function plotts a histogram of the data and the fitted mixing distribubion of normals.
@@ -560,16 +561,16 @@ plot.dens <- function(x, mu, sigma2, pi){
 #'
 #' @export
 plot_fct <- function(y, mu, sigma2, pi, ecoff) {
-  if(any(y<0)) stop("only positive y values are allowed")
+  if(any(y<0)) stop("only nonnegative y values are allowed")
 
   if(!is.numeric(mu)) stop("mu is not a numeric vector")
-  if(any(mu<0)) stop("only positive mu values are allowed")
+  if(any(mu<=0)) stop("only positive mu values are allowed")
 
   if(!is.numeric(sigma2)) stop("sigma2 is not a numeric vector")
-  if(any(sigma2<0)) stop("only positive sigma2 values are allowed")
+  if(any(sigma2<=0)) stop("only positive sigma2 values are allowed")
 
   if(!is.numeric(pi)) stop("pi is not a numeric vector")
-  if(any(pi<0)) stop("only positive pi values are allowed")
+  if(any(pi<=0)) stop("only positive pi values are allowed")
 
   if(length(mu) != length(sigma2) || length(sigma2) != length(pi)){
     stop("mu and sigma2 or sigma2 and pi have not the same length")
