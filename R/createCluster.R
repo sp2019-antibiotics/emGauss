@@ -1,6 +1,3 @@
-#library(tidyverse)
-#library(dplyr)
-
 #' @title Create Cluster 
 #' @param y a  (nx2) matrix (nx2) First column: number of bin, Second column: number of observation per bin
 #' @param k a numeric value - number of components (fitted distributions)
@@ -21,14 +18,16 @@
 #' @export
 createCluster <- function(y,k, method = c("quantile", "binbased")){
 
-  #y matrix with columns (name of bin, number of observation)
-  #k number of groups
+  # y matrix with columns (name of bin, number of observation)
+  # k number of groups
   # method quantile and binbased
 
- # if(class(y) != "matrix") warning("y is not a matrix")
- # if(class(k) != "numeric") warning("k is not a numeric vector")
-  if(any(k<=0)) warning("only positive k values are allowed")
+  if(!is.matrix(y) || !(is.numeric(y) || is.integer(y))) warning("y is not a numeric matrix")
   if(any(y<0)) warning("only nonnegative y values are allowed")
+
+  if(!length(k) == 1 && !(is.numeric(k) || is.integer(k))) warning("k is not a numeric scalar")
+  k <- as.integer(k)
+  if(any(k<=0)) warning("only positive k values are allowed")
 
   method <- match.arg(method)
   

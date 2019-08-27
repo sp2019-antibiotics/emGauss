@@ -1,8 +1,3 @@
-##################
-# Packages ######
-#################
-#library(invgamma)
-
 ########################
 ## Functions ###########
 ########################
@@ -27,7 +22,7 @@ pjk <- function(a, b, mu, sigma2){
     return(pjk_est)
 }
 
-# Probabilty of being in interjal j under mixed distribution
+# Probabilty of being in interval j under mixed distribution
 pj <- function(p0, pi, a, b, mu , sigma2, get.p0= FALSE){
   # p0 - numeric value probability of being in interval B0
   # a numeric value lower bound of a bin
@@ -36,12 +31,9 @@ pj <- function(p0, pi, a, b, mu , sigma2, get.p0= FALSE){
   # mu numeric vector mean of a normal
   # sigma2 numeric vector variance of a normal
 
-  buffer <- NULL
+  buffer <- numeric(length(mu))
   for (i in length(mu)){
-    buffer <- c(buffer,
-                pi[i]*pjk(a, b, mu[i], sigma2[i]))
-
-
+    buffer[i] <- pi[i]*pjk(a, b, mu[i], sigma2[i]))
   }
 
   if(get.p0){
@@ -58,17 +50,16 @@ pj <- function(p0, pi, a, b, mu , sigma2, get.p0= FALSE){
 loglik <- function(n0, p0, J, K, pi, pjk, njk, mu, sigma2){
   # n0 - numeric value number of resistent observations
   # p0 - numeric value probability of being in interval B0
-  # J -  numeric value Number of Bins
-  # K -  numeric value Number of components
+  # J -  numeric value number of Bins
+  # K -  numeric value number of components
   # pi - vector of mixing proportions
-  # pjk - matrix (jxk) occurence probabilty of a jth bin in the kth density
-  # njk - matrix (jxk) - number of expected observation in jth bin under kth density
+  # pjk - matrix (jxk) occurence probability of the jth bin in the kth density
+  # njk - matrix (jxk) - number of expected observations in the jth bin under the kth density
   # mu - vector of mean of normals
   # sigma2 - vector of variance of normals
-  #OUTPUT
-  #likelihood value (loglik)
+  # OUTPUT
+  # likelihood value (loglik)
 
-  #
   term1 <- n0 * log(p0)
 
   if(K == 1){
