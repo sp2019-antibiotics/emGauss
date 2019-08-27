@@ -8,13 +8,12 @@ Maintainer: Michaela Raab <raab.michaela96@gmail.com>
 Description: Functions to get the ECOFF value of an EUCAST dataset. The distribution of the data is approximated by a mixture of Gaussians. The parameters of the mixture distribution are estimated with an EM algorithm.
 License: GPL-2
 Encoding: UTF-8
-LazyData: true
 Imports: 
     invgamma,
-    dplyr,
     stats
 RoxygenNote: 6.1.1
-Suggests: 
+Suggests:
+    EUCASTData,
     knitr,
     rmarkdown
 VignetteBuilder: knitr

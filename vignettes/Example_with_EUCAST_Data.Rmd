@@ -29,7 +29,7 @@ library(emGauss)
 This package also includes real data (Zonedata) from the EUCAST website. This will be loaded in the next lines of code
 
 ```{r}
-data('ZD')
+data("ZD", package = "EUCASTData")
 ```
 
 # Example Dataset
