@@ -22,6 +22,7 @@ createCluster <- function(y,k, method = c("quantile", "binbased")){
   # k number of groups
   # method quantile and binbased
 
+  y <- as.matrix(y)  
   if(!is.matrix(y) || !(is.numeric(y) || is.integer(y))) warning("y is not a numeric matrix")
   if(any(y<0)) warning("only nonnegative y values are allowed")
 

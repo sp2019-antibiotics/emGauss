@@ -375,17 +375,12 @@ em.gauss <- function(y, mu, sigma2, pi, alpha, beta,
 
 
     # Check loglikelihood
-
-    loglik_curr <- loglik(n0 = n0,
-                          p0 = p0,
-                          J = J,
-                          K = K,
-                          pi =pi_est,
-                          pjk = pjk_exp,
-                          njk = njk_exp,
-                          mu = mu_est,
-                          sigma2 = sigma2_est)
-
+    loglik_curr <- loglik2(y = y,
+                           mu = mu_est,
+                           sigma2 = sigma2_est,
+                           pi = pi_est,
+                           ab_bin = ab_bin) +
+        sum(invgamma::dinvgamma(sigma2, alpha, beta, log = TRUE))
 
     if(loglik_prev == -Inf & loglik_curr == -Inf){
       delta <- 0
@@ -576,7 +571,7 @@ plot_fct <- function(y, mu, sigma2, pi, ecoff) {
        main = paste("Gaussian Mixtures with ", length(mu), " components"),breaks=30,
        xlim=c(5,max(y.data[1])))
 
-  graphics::curve(plot.dens(x,
+  graphics::curve((1 - y[1] / sum(y)) * plot.dens(x,
                   mu,
                   sigma2,
                   pi), from= 6, to = 50, add = T, ylab = 'density')

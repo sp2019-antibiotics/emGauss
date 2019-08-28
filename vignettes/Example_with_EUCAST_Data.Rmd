@@ -26,13 +26,13 @@ library(emGauss)
 ```
 
 # Data
-This package also includes real data (Zonedata) from the EUCAST website. This will be loaded in the next lines of code
+The real data (Zonedata) from the EUCAST website is contained in package `EUCASTData`. This will be loaded in the next lines of code
 
 ```{r}
 data("ZD", package = "EUCASTData")
 ```
 
-# Example Dataset
+# Example Dataset 1
 In order to get an example dataset, we have to extract the nessercary columns from the ZD dataset. The plot shows that the data may have two components.
 
 ```{r}
@@ -108,4 +108,46 @@ plot_fct(y,
           ecoff = em.result$ecoff)
 ```
 
+# Example Dataset 2
 
+```{r}
+zd <- as.numeric(ZD[65, 4:48])
+barplot(zd, names.arg = 6:50)
+result <-em.gauss.opti.groups(y = zd,
+                     k = 3,
+                     alpha = 3,
+                     beta= 1,
+                     method = "quantile",
+                     epsilon=0.0001)
+plot(result$BIC, ylab = 'BIC',
+     xlab = 'Number of components')
+abline(v=which.min(result$BIC), lty= 2, col=2)
+em.result <- result[[which.min(result$BIC)]]		      
+plot_fct(as.numeric(zd), 
+         mu = em.result$mu, 
+         sigma2 = em.result$sigma2, 
+         pi = em.result$pi, 
+         ecoff = em.result$ecoff)
+```
+
+# Example Dataset 3
+
+```{r}
+zd <- as.numeric(ZD[855, 4:48])
+barplot(zd, names.arg = 6:50)
+result <-em.gauss.opti.groups(y = zd,
+                     k = 5,
+                     alpha = 3,
+                     beta= 1,
+                     method = "quantile",
+                     epsilon=0.0001)
+plot(result$BIC, ylab = 'BIC',
+     xlab = 'Number of components')
+abline(v=which.min(result$BIC), lty= 2, col=2)
+em.result <- result[[which.min(result$BIC)]]		      
+plot_fct(as.numeric(zd), 
+         mu = em.result$mu, 
+         sigma2 = em.result$sigma2, 
+         pi = em.result$pi, 
+         ecoff = em.result$ecoff)
+```
