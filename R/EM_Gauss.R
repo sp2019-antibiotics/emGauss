@@ -571,7 +571,7 @@ plot_fct <- function(y, mu, sigma2, pi, ecoff) {
 
 
   y.data <- data.frame(name = 1:length(y)+5, y)
-  lim=max(graphics::hist(y,breaks = 30, freq = F, plot = F)$density)
+  lim=max(graphics::hist(y,breaks = 30, plot = F)$density)
   graphics::hist(rep(y.data[,1],y.data[,2]),freq = F , col = "deepskyblue", xlab="mm",
        main = paste("Gaussian Mixtures with ", length(mu), " components"),breaks=30,
        xlim=c(5,max(y.data[1])))
