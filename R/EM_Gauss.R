@@ -47,49 +47,7 @@ pj <- function(p0, pi, a, b, mu , sigma2, get.p0= FALSE){
 
 
 #Loglikelihood
-loglik <- function(n0, p0, J, K, pi, pjk, njk, mu, sigma2){
-  # n0 - numeric value number of resistent observations
-  # p0 - numeric value probability of being in interval B0
-  # J -  numeric value number of Bins
-  # K -  numeric value number of components
-  # pi - vector of mixing proportions
-  # pjk - matrix (jxk) occurence probability of the jth bin in the kth density
-  # njk - matrix (jxk) - number of expected observations in the jth bin under the kth density
-  # mu - vector of mean of normals
-  # sigma2 - vector of variance of normals
-  # OUTPUT
-  # likelihood value (loglik)
-
-  term1 <- n0 * log(p0)
-
-  if(K == 1){
-    term2 <- sum(njk * log(pi)) # should be 0
-  }else{
-    logpi <- log(pi)
-    logpi[logpi == -Inf] <- log(.Machine$double.eps)
-    term2 <- sum(colSums(njk) * logpi)
-  }
-
-  log_pjk <- log(pjk)
-
-  log_pjk <- apply(log_pjk, 2, function(x){
-    ifelse(x == -Inf, log(.Machine$double.eps), x)
-  })
-
-
-
-  term3 <- sum(njk * log_pjk) #instead of sum sum
-
-
-
-
-  #Term 2
-  loglik_value <- term1 + term2 + term3
-
-  return(loglik_value)
-}
-
-loglik2 <- function(y, pi, mu, sigma2, ab_bin){
+loglik <- function(y, pi, mu, sigma2, ab_bin){
   ll <- numeric(length(y))
   for(i in 2: length(y)){
     ll[i] <- y[i] * log(sum(
@@ -375,7 +333,7 @@ em.gauss <- function(y, mu, sigma2, pi, alpha, beta,
 
 
     # Check loglikelihood
-    loglik_curr <- loglik2(y = y,
+    loglik_curr <- loglik(y = y,
                            mu = mu_est,
                            sigma2 = sigma2_est,
                            pi = pi_est,
@@ -394,7 +352,7 @@ em.gauss <- function(y, mu, sigma2, pi, alpha, beta,
   ecoff <- ecoff(mu_est=mu_est, pi_est = pi_est,
                  sigma2_est = sigma2_est, quantile = ecoff.quantile)
 
-loglik.test <- loglik2(y = y,
+loglik.test <- loglik(y = y,
                          mu = mu_est,
                          sigma2 = sigma2_est,
                          pi = pi_est,
