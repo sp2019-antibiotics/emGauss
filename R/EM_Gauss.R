@@ -436,7 +436,8 @@ em.gauss.opti.groups <- function(y, k, alpha, beta, method = "quantile", epsilon
                   pi= rep(1/i, i),
                   alpha=alpha,
                   beta=beta,
-                  epsilon=epsilon)
+                  epsilon=epsilon,
+                  ecoff.comp = ifelse(i ==1 , 1, 0))
 
      aic <- AIC.gauss(goodness[[i]]$loglik, i)
      bic <- BIC.gauss(goodness[[i]]$loglik, i, sum(y))
