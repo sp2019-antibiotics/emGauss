@@ -145,6 +145,7 @@ njk <- function(nj, pi, mu, sigma2, a, b,  k){
 #' @param beta Scale parameter of inverse gamma distribution
 #' @param epsilon Convergence criterium
 #' @param ecoff.quantile Quantil which defines the ECOFF
+#' @param ecoff.comp Component which is used for calculating the ECOFF
 #' @param max.iter Maximum number of iterations
 #'
 #' @return A list with components mu, var, pi, loglik and ecoff
@@ -174,7 +175,7 @@ njk <- function(nj, pi, mu, sigma2, a, b,  k){
 
 #' @export
 em.gauss <- function(y, mu, sigma2, pi, alpha, beta,
-                     epsilon=0.000001,ecoff.quantile=0.01, max.iter = 1000){
+                     epsilon=0.000001, ecoff.quantile=0.01, ecoff.comp = 0, max.iter = 1000){
 
   # y - data numeric vector with observation per bin,
   # n0  - first value of y must be n0
@@ -217,6 +218,10 @@ em.gauss <- function(y, mu, sigma2, pi, alpha, beta,
   if(!is.numeric(beta)|| length(beta) != 1 || any(beta<=0)){
     stop("beta is not a positive numeric value")
   }
+
+  if(!is.numeric(ecoff.comp)) stop("ecoff.comp is not a numeric vector")
+  if(ecoff.comp > length(mu)) stop("ecoff.comp is too high")
+  if(ecoff.comp < 0) stop("ecoff.comp is not a positive numeric value")
 
   if(!is.numeric(epsilon) || length(epsilon) != 1 || any(epsilon<=0)){
     stop("epsilon is not a positive numeric value")
@@ -350,7 +355,8 @@ em.gauss <- function(y, mu, sigma2, pi, alpha, beta,
 
   }
   ecoff <- ecoff(mu_est=mu_est, pi_est = pi_est,
-                 sigma2_est = sigma2_est, quantile = ecoff.quantile)
+                 sigma2_est = sigma2_est, quantile = ecoff.quantile,
+                 ecoff.comp = ecoff.comp)
 
 loglik.test <- loglik(y = y,
                          mu = mu_est,
@@ -471,13 +477,28 @@ BIC.gauss <- function(lik, par, n){
 }
 
 
-ecoff <- function(mu_est, pi_est, sigma2_est,quantile=0.01) {
-  val <- 0
-  for(i in length(mu_est):1) {
-    val <- val + pi_est[i]
-    if(val > 0.3) break
+ecoff <- function(mu_est, pi_est, sigma2_est,quantile=0.01, ecoff.comp = 0) {
+  #Ecoff.comp Component, which should be used for calculating the ECOFF
+
+  if(ecoff.comp > 0){
+    return(stats::qnorm(quantile,mean=mu_est[ecoff.comp],
+                        sd = sqrt(sigma2_est[ecoff.comp])))
+  }else{
+    val <- 0
+    for(i in length(mu_est):1) {
+      val <- val + pi_est[i]
+      if(val > 0.3) break
+    }
+
+    if(length(mu_est)== 1){
+      warning('No ECOFF is calculated, because it is not possible to seperate between resistant and wildtype group. To get an ECOFF use ecoff.comp = 1 ')
+      return(0)
+    }else{
+      return(stats::qnorm(quantile,mean=mu_est[i], sd = sqrt(sigma2_est[i])))
+    }
+
   }
-  return(stats::qnorm(quantile,mean=mu_est[i], sd = sqrt(sigma2_est[i])))
+
 }
 
 plot.dens <- function(x, mu, sigma2, pi){

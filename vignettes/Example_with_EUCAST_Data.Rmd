@@ -29,7 +29,7 @@ library(emGauss)
 The real data (Zonedata) from the EUCAST website is contained in package `EUCASTData`. This will be loaded in the next lines of code
 
 ```{r}
-data("ZD", package = "EUCASTData")
+#data("ZD", package = "EUCASTData")
 ```
 
 # Example Dataset 1
@@ -37,7 +37,7 @@ In order to get an example dataset, we have to extract the nessercary columns fr
 
 ```{r}
 # 65, 855, 1091 example datasets 
-
+#zd <- sample(size = 50, x = 1:1000)[4:48]
 zd <- as.numeric(ZD[1091, 4:48])
 zd.data <- data.frame(bin = 6:50, nrObs = zd)
 barplot(zd.data$nrObs, names.arg = c(zd.data$bin))

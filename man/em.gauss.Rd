@@ -5,7 +5,7 @@
 \title{Estimating Ecoff by mixing Gaussians}
 \usage{
 em.gauss(y, mu, sigma2, pi, alpha, beta, epsilon = 1e-06,
-  ecoff.quantile = 0.01, max.iter = 1000)
+  ecoff.quantile = 0.01, ecoff.comp = 0, max.iter = 1000)
 }
 \arguments{
 \item{y}{A data vector with observed values per bin.}
@@ -23,6 +23,8 @@ em.gauss(y, mu, sigma2, pi, alpha, beta, epsilon = 1e-06,
 \item{epsilon}{Convergence criterium}
 
 \item{ecoff.quantile}{Quantil which defines the ECOFF}
+
+\item{ecoff.comp}{Component which is used for calculating the ECOFF}
 
 \item{max.iter}{Maximum number of iterations}
 }
