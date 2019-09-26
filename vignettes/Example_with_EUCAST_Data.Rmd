@@ -29,7 +29,7 @@ library(emGauss)
 The real data (Zonedata) from the EUCAST website is contained in package `EUCASTData`. This will be loaded in the next lines of code
 
 ```{r}
-#data("ZD", package = "EUCASTData")
+data("ZD", package = "EUCASTData")
 ```
 
 # Example Dataset 1
@@ -37,7 +37,6 @@ In order to get an example dataset, we have to extract the nessercary columns fr
 
 ```{r}
 # 65, 855, 1091 example datasets 
-#zd <- sample(size = 50, x = 1:1000)[4:48]
 zd <- as.numeric(ZD[1091, 4:48])
 zd.data <- data.frame(bin = 6:50, nrObs = zd)
 barplot(zd.data$nrObs, names.arg = c(zd.data$bin))
@@ -109,10 +108,18 @@ plot_fct(y,
 ```
 
 # Example Dataset 2
+For the second dataset the steps to find the optimal ECOFF Value is similar to the first dataset.
+
+Firstly the data gets plotted
 
 ```{r}
 zd <- as.numeric(ZD[65, 4:48])
 barplot(zd, names.arg = 6:50)
+```
+
+Secondly, the function em.gauss.opti.groups is used to find the optimal number of components. Because it seems to be only one component, the maximum number of components is set to 3.
+
+```{r}
 result <-em.gauss.opti.groups(y = zd,
                      k = 3,
                      alpha = 3,
@@ -122,6 +129,11 @@ result <-em.gauss.opti.groups(y = zd,
 plot(result$BIC, ylab = 'BIC',
      xlab = 'Number of components')
 abline(v=which.min(result$BIC), lty= 2, col=2)
+```
+
+In the last step the function plot_fct is used to plot the  distribution, which has the minimum BIC. Moreover the ECOFF value is shown as the vertical line. 
+
+```{r}
 em.result <- result[[which.min(result$BIC)]]		      
 plot_fct(as.numeric(zd), 
          mu = em.result$mu, 
@@ -131,10 +143,15 @@ plot_fct(as.numeric(zd),
 ```
 
 # Example Dataset 3
-
+The third dataset looks like the following figure
 ```{r}
 zd <- as.numeric(ZD[855, 4:48])
 barplot(zd, names.arg = 6:50)
+```
+
+As in the examples before the function em.gauss.opti.groups is used to find the optimal number of components based on the BIC.
+
+```{r}
 result <-em.gauss.opti.groups(y = zd,
                      k = 5,
                      alpha = 3,
@@ -144,6 +161,10 @@ result <-em.gauss.opti.groups(y = zd,
 plot(result$BIC, ylab = 'BIC',
      xlab = 'Number of components')
 abline(v=which.min(result$BIC), lty= 2, col=2)
+```
+
+In the last step the optimal distribution and its ECOFF value is visualized by the function plot_fct.
+```{r}
 em.result <- result[[which.min(result$BIC)]]		      
 plot_fct(as.numeric(zd), 
          mu = em.result$mu, 
